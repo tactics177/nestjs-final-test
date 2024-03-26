@@ -15,10 +15,10 @@ Instructions on how to install and set up your project.
 
 ## Usage
 
-script npm de lancement des tests
+script npm de lancement des tests:
 npm run test:e2e:mongodb
 
-script npm de lancement du serveur
+script npm de lancement du serveur:
 npn run start:dev
 
 ## Contributing
