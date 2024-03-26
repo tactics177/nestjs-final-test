@@ -4,19 +4,17 @@ import {
     Param,
     Post,
     Body,
-    Put,
-    Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User as UserModel } from '@prisma/client';
 
-@Controller()
+@Controller('user')
 export class UserController {
     constructor(
         private readonly userService: UserService,
     ) { }
 
-    @Post('/user')
+    @Post('/')
     async signupUser(
         @Body() userData: {
             email: string
@@ -25,7 +23,7 @@ export class UserController {
         return this.userService.addUser(userData.email);
     }
 
-    @Get('/user/:email')
+    @Get('/:email')
     async getUser(
         @Param('email') email: string,
     ): Promise<UserModel | null> {

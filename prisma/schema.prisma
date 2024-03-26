@@ -16,7 +16,7 @@ datasource db {
 model Task {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
-  priority String
+  priority Int
   userId String @db.ObjectId
   user User @relation(fields: [userId], references: [id])
 
