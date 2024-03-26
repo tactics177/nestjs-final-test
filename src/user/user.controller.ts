@@ -25,9 +25,10 @@ export class UserController {
         return this.userService.addUser(userData.email);
     }
 
-    // get hello world
-    @Get('/hello')
-    async getHello(): Promise<string> {
-        return 'Hello World!';
+    @Get('/user/:email')
+    async getUser(
+        @Param('email') email: string,
+    ): Promise<UserModel | null> {
+        return this.userService.getUser(email);
     }
 }

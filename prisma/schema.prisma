@@ -19,10 +19,14 @@ model Task {
   priority String
   userId String @db.ObjectId
   user User @relation(fields: [userId], references: [id])
+
+  @@map("tasks")
 }
 
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   email String
   tasks Task[]
+
+  @@map("users")
 }
