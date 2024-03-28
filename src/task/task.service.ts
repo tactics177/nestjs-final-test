@@ -16,7 +16,7 @@ export class TaskService {
         }
 
         const parsedPriority = typeof priority === 'string' ? parseInt(priority, 10) : priority;
-        if (!this.isValidPriority(priority)) {
+        if (!this.isValidPriority(parsedPriority)) {
             throw new BadRequestException('Priority must be a positive integer');
         }
 
