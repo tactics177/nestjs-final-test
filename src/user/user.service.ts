@@ -1,13 +1,26 @@
-import { Injectable, NotImplementedException, BadRequestException, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+    Injectable,
+    BadRequestException,
+    NotFoundException,
+    ConflictException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { User, Prisma } from '@prisma/client';
+import { User } from '@prisma/client';
+import { Utils } from '../utils/utils';
 
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService) { }
+    constructor(private prisma: PrismaService) {}
 
+    /**
+     * Adds a new user with the specified email address.
+     * @param email - The email address of the user.
+     * @returns A Promise that resolves to the created User object.
+     * @throws BadRequestException if the email address is invalid.
+     * @throws ConflictException if a user with the same email address already exists.
+     */
     async addUser(email: string): Promise<User> {
-        if (!email || !this.isValidEmail(email)) {
+        if (!email || !Utils.isValidEmail(email)) {
             throw new BadRequestException('Invalid email address');
         }
 
@@ -28,8 +41,15 @@ export class UserService {
         });
     }
 
+    /**
+     * Retrieves the user with the specified email address.
+     * @param email - The email address of the user.
+     * @returns A Promise that resolves to the User object if found, or null if not found.
+     * @throws BadRequestException if the email address is invalid.
+     * @throws NotFoundException if the user with the specified email address is not found.
+     */
     async getUser(email: string): Promise<User | null> {
-        if (!email || !this.isValidEmail(email)) {
+        if (!email || !Utils.isValidEmail(email)) {
             throw new BadRequestException('Invalid email address');
         }
 
@@ -46,16 +66,16 @@ export class UserService {
         return user;
     }
 
+    /**
+     * Resets the user data by deleting all users.
+     * @returns A Promise that resolves to void.
+     * @throws Error if failed to reset user data.
+     */
     async resetData(): Promise<void> {
         try {
             await this.prisma.user.deleteMany({});
         } catch (error) {
             throw new Error('Failed to reset user data');
         }
-    }
-
-    private isValidEmail(email: string): boolean {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
     }
 }

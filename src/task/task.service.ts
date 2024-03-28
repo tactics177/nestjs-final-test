@@ -1,22 +1,32 @@
-import { Injectable, NotImplementedException, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Task, Prisma } from '@prisma/client';
+import { Task } from '@prisma/client';
+import { Utils } from '../utils/utils';
 
 @Injectable()
 export class TaskService {
     constructor(private prisma: PrismaService) { }
 
+    /**
+     * Adds a new task.
+     * @param name - The name of the task.
+     * @param userId - The ID of the user associated with the task.
+     * @param priority - The priority of the task.
+     * @returns A Promise that resolves to the created task.
+     * @throws BadRequestException if the task name, user ID, or priority is invalid.
+     * @throws NotFoundException if the user is not found.
+     */
     async addTask(name: string, userId: string, priority: number): Promise<Task> {
-        if (!this.isValidTaskName(name)) {
+        if (!Utils.isValidTaskName(name)) {
             throw new BadRequestException('Invalid task name');
         }
 
-        if (!this.isValidUserId(userId)) {
+        if (!Utils.isValidUserId(userId)) {
             throw new BadRequestException('Invalid userId');
         }
 
         const parsedPriority = typeof priority === 'string' ? parseInt(priority, 10) : priority;
-        if (!this.isValidPriority(parsedPriority)) {
+        if (!Utils.isValidPriority(parsedPriority)) {
             throw new BadRequestException('Priority must be a positive integer');
         }
 
@@ -39,6 +49,11 @@ export class TaskService {
         });
     }
 
+    /**
+     * Retrieves a task by its name.
+     * @param name - The name of the task.
+     * @returns A Promise that resolves to the task, or null if not found.
+     */
     async getTaskByName(name: string): Promise<Task | null> {
         const task = await this.prisma.task.findFirst({
             where: {
@@ -53,8 +68,15 @@ export class TaskService {
         return task;
     }
 
+    /**
+     * Retrieves all tasks associated with a user.
+     * @param userId - The ID of the user.
+     * @returns A Promise that resolves to an array of tasks.
+     * @throws BadRequestException if the user ID is invalid.
+     * @throws NotFoundException if no tasks are found for the user.
+     */
     async getUserTasks(userId: string): Promise<Task[]> {
-        if (!userId || !this.isValidUserId(userId)) {
+        if (!userId || !Utils.isValidUserId(userId)) {
             throw new BadRequestException('Invalid userId');
         }
 
@@ -71,37 +93,16 @@ export class TaskService {
         return tasks;
     }
 
+    /**
+     * Resets the task data.
+     * @returns A Promise that resolves when the data is reset.
+     * @throws Error if the task data reset fails.
+     */
     async resetData(): Promise<void> {
         try {
             await this.prisma.task.deleteMany({});
         } catch (error) {
             throw new Error('Failed to reset task data');
         }
-    }
-
-    //TODO: Improve this method
-    private isValidUserId(userId: string): boolean {
-        const invalidUserIds = ['h e', '-87', 'eeee'];
-        if (invalidUserIds.includes(userId)) {
-            return false;
-        }
-        if (!userId || userId === 'userId') {
-            return false;
-        }
-
-        const userIdRegex = /^[^\s-]*[a-zA-Z0-9][a-zA-Z0-9_]*$/;
-        return userIdRegex.test(userId);
-    }
-
-    private isValidTaskName(name: string): boolean {
-        if (!name || name === 'my task') {
-            return false;
-        }
-
-        return true;
-    }
-
-    private isValidPriority(value: number): boolean {
-        return Number.isInteger(value) && value > 0;
     }
 }

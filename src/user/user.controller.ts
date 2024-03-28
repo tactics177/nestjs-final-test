@@ -14,6 +14,11 @@ export class UserController {
         private readonly userService: UserService,
     ) { }
 
+    /**
+     * Sign up a new user.
+     * @param userData - The user data including the email.
+     * @returns A promise that resolves to the created user model.
+     */
     @Post('/')
     async signupUser(
         @Body() userData: {
@@ -23,6 +28,11 @@ export class UserController {
         return this.userService.addUser(userData.email);
     }
 
+    /**
+     * Get a user by email.
+     * @param email - The email of the user to retrieve.
+     * @returns A promise that resolves to the user model if found, otherwise null.
+     */
     @Get('/:email')
     async getUser(
         @Param('email') email: string,
