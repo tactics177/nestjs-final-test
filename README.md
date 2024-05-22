@@ -19,7 +19,7 @@ Cloner le répository en local.
 **script npm de lancement des tests**:
 
 ```bash
-npm run test:e2e:mongodb
+npm run test:e2e:mongodb:atlas
 ```
 
 **script npm de lancement du serveur**:
