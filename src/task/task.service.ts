@@ -30,13 +30,15 @@ export class TaskService {
             throw new BadRequestException('Priority must be a positive integer');
         }
 
-        const existingUser = await this.prisma.user.findUnique({
-            where: {
-                id: userId,
-            },
-        });
-
-        if (!existingUser) {
+        try {
+            const existingUser = await this.prisma.user.findUnique({
+                where: {
+                    id: userId,
+                },
+            });
+            console.log(existingUser);
+        } catch (error) {
+            console.error('Error finding user:', error);
             throw new NotFoundException('User not found');
         }
 
