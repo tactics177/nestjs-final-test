@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export class Utils {
      static isValidEmail(email: string): boolean {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -18,15 +20,16 @@ export class Utils {
 
     //TODO: Improve this method
     static isValidUserId(userId: string): boolean {
-        const invalidUserIds = ['h e', '-87', 'eeee'];
-        if (invalidUserIds.includes(userId)) {
-            return false;
-        }
-        if (!userId || userId === 'userId') {
-            return false;
-        }
+        // const invalidUserIds = ['h e', '-87', 'eeee'];
+        // if (invalidUserIds.includes(userId)) {
+        //     return false;
+        // }
+        // if (!userId || userId === 'userId') {
+        //     return false;
+        // }
 
-        const userIdRegex = /^[^\s-]*[a-zA-Z0-9][a-zA-Z0-9_]*$/;
-        return userIdRegex.test(userId);
+        // const userIdRegex = /^[^\s-]*[a-zA-Z0-9][a-zA-Z0-9_]*$/;
+        // return userIdRegex.test(userId);
+        return ObjectId.isValid(userId);
     } 
 }
