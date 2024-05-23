@@ -1,15 +1,30 @@
 import { ObjectId } from "mongodb";
 
 export class Utils {
-     static isValidEmail(email: string): boolean {
+    /**
+     * Checks if the given email is valid.
+     * @param email - The email to validate.
+     * @returns True if the email is valid, false otherwise.
+     */
+    static isValidEmail(email: string): boolean {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
 
+    /**
+     * Checks if the given value is a valid priority.
+     * @param value - The value to validate.
+     * @returns True if the value is a valid priority, false otherwise.
+     */
     static isValidPriority(value: number): boolean {
         return Number.isInteger(value) && value > 0;
     }
 
+    /**
+     * Checks if the given task name is valid.
+     * @param name - The task name to validate.
+     * @returns True if the task name is valid, false otherwise.
+     */
     static isValidTaskName(name: string): boolean {
         if (!name || name === 'my task') {
             return false;
@@ -17,19 +32,13 @@ export class Utils {
 
         return true;
     }
-
-    //TODO: Improve this method
+    
+    /**
+     * Checks if the given user ID is valid.
+     * @param userId - The user ID to validate.
+     * @returns True if the user ID is valid, false otherwise.
+     */
     static isValidUserId(userId: string): boolean {
-        // const invalidUserIds = ['h e', '-87', 'eeee'];
-        // if (invalidUserIds.includes(userId)) {
-        //     return false;
-        // }
-        // if (!userId || userId === 'userId') {
-        //     return false;
-        // }
-
-        // const userIdRegex = /^[^\s-]*[a-zA-Z0-9][a-zA-Z0-9_]*$/;
-        // return userIdRegex.test(userId);
         return ObjectId.isValid(userId);
     } 
 }
