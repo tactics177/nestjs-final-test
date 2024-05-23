@@ -22,7 +22,7 @@ describe('UserController', () => {
         });
 
         it('should return an HTTP error status 400 when given user is not valid', async () => {
-             const invalidPayloads = [
+            const invalidPayloads = [
                 { email: '' },
                 { email: 'name' },
                 { email: 'name@' },
