@@ -1,20 +1,23 @@
 # Project Name
 
 Projet final Nestjs:
-La base de données choisi est MongoDB.
+Ce projet utilise la base de données MongoDB dans le cloud (MongoDB Atlas) et l'ORM Prisma.
 
 ## Table of Contents
 
 -   [Installation](#installation)
 -   [Usage](#usage)
--   [Contributing](#contributing)
--   [License](#license)
 
 ## Installation
 
 Cloner le répository en local.
 
 ## Usage
+
+**script d'installation des node_modules**:
+```bash
+npm ci
+```
 
 **script npm de lancement des tests**:
 
@@ -27,11 +30,3 @@ npm run test:e2e:mongodb:atlas
 ```bash
 npm run start:dev
 ```
-
-## Contributing
-
-Guidelines for contributing to your project, including how to report issues and submit pull requests.
-
-## License
-
-Information about the license for your project.

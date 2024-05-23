@@ -36,7 +36,6 @@ export class TaskService {
                     id: userId,
                 },
             });
-            console.log(existingUser);
         } catch (error) {
             console.error('Error finding user:', error);
             throw new NotFoundException('User not found');
