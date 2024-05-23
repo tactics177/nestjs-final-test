@@ -26,11 +26,7 @@ export class Utils {
      * @returns True if the task name is valid, false otherwise.
      */
     static isValidTaskName(name: string): boolean {
-        if (!name || name === 'my task') {
-            return false;
-        }
-
-        return true;
+        return typeof name === 'string' && name.trim().length > 0;
     }
     
     /**
